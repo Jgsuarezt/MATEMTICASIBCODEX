@@ -43,6 +43,6 @@ npm run build:cloudflare
 CLOUDFLARE_ACCOUNT_ID=52791b99896aec1ee03f60bcb24a332d npx wrangler@4.158.0 pages deploy dist-cloudflare --project-name matematicasib --branch main
 ```
 
-El token debe estar configurado de forma segura como `CLOUDFLARE_API_TOKEN`; nunca guardarlo en el repositorio. `dist-cloudflare/` incluye reglas de redirección compatibles con Pages: `www` y el subdominio estable de Pages apuntan al dominio principal `https://matematicasib.com`, conservando la ruta. Cloudflare Pages resuelve las URLs HTML sin extensión automáticamente.
+El token debe estar configurado de forma segura como `CLOUDFLARE_API_TOKEN`; nunca guardarlo en el repositorio. `dist-cloudflare/` incluye una Pages Function mínima (`cloudflare/worker.js`) que redirige `www` y el subdominio estable de Pages a `https://matematicasib.com`, conservando la ruta y parámetros. El dominio principal sigue sirviendo los archivos mediante ASSETS. Estas redirecciones requieren Pages Functions y están sujetas a sus límites; `_redirects` de Pages no admite reglas por hostname. Cloudflare Pages resuelve las URLs HTML sin extensión automáticamente.
 
 La publicación en Pages es manual; subir commits a GitHub no despliega por sí solo este proyecto de Direct Upload. Para cambios futuros, compilar y desplegar otra vez. Se conservan las alternativas de Netlify y GitHub del repositorio.

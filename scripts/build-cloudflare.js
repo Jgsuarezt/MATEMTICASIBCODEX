@@ -1,9 +1,7 @@
 import { buildStatic } from './static-build.js';
-import { writeFile } from 'node:fs/promises';
+import { cp, rm } from 'node:fs/promises';
 await buildStatic({ outDir: 'dist-cloudflare' });
-// Pages resolves extensionless HTML URLs itself; Netlify-specific rules are not used.
-await writeFile('dist-cloudflare/_redirects', [
-  'https://www.matematicasib.com/* https://matematicasib.com/:splat 301',
-  'https://matematicasib.pages.dev/* https://matematicasib.com/:splat 301',
-  ''
-].join('\n'));
+// Pages resolves extensionless HTML itself. Domain redirects require a Function;
+// Pages _redirects only supports path-level sources, unlike Netlify.
+await rm('dist-cloudflare/_redirects', { force: true });
+await cp('cloudflare/worker.js', 'dist-cloudflare/_worker.js');
