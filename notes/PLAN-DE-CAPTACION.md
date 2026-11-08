@@ -44,3 +44,7 @@ Fuentes consultadas:
 ## Qué falta y no se debe prometer
 
 No se ha desplegado esta versión en producción, verificado Search Console ni medido posicionamiento o clientes. No se puede prometer un puesto en Google, menciones en chats de IA, un plazo de indexación o una cantidad de ventas. El paso útil siguiente es publicar, verificar dominio y empezar a medir consultas reales.
+
+## Revisión de carga de contenido
+
+La portada se redujo de 2.589 a 891 palabras de texto HTML (mismo método de conteo, excluyendo scripts y estilos). Se retiraron la introducción duplicada, las listas repetidas de precios/servicios, la segunda llamada final de venta y los controles de las herramientas de la portada. Se conservaron precios, cobertura, formación, nombres completos de asignatura y nivel, consulta guiada, tres FAQ y accesos a contenidos especializados. Las herramientas siguen funcionando en su propia página y se incorporaron a sitemap e índices. Esta reducción no equivale por sí sola a una mejora medida de ranking o ventas.

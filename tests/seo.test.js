@@ -42,5 +42,5 @@ test('Paquete de producción rastreable y vista de GitHub sin indexar', async ()
   assert.ok((await load('dist/_redirects')).includes('/matematicas-aa.html /matematicas-aa 301!'));
   assert.match(await load('dist/index.html'), /content="index, follow/);
   assert.match(await load('docs/index.html'), /content="noindex, follow"/);
-  assert.match(await load('docs/matematicas-aa.html'), /\/MATEMTICASIBCODEX\/contacto.html\?curso=AA%20SL&amp;modalidad=virtual/);
+  assert.match(await load('docs/matematicas-aa.html'), /\/MATEMTICASIBCODEX\/herramientas-matematicas-ib.html/);
 });

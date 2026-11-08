@@ -35,3 +35,7 @@
 /privacidad.html /privacidad 301!
 /privacidad/ /privacidad 301!
 /privacidad /privacidad.html 200
+
+/herramientas-matematicas-ib.html /herramientas-matematicas-ib 301!
+/herramientas-matematicas-ib/ /herramientas-matematicas-ib 301!
+/herramientas-matematicas-ib /herramientas-matematicas-ib.html 200

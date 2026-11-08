@@ -1,6 +1,6 @@
 # Matemáticas IB — Gabriel Suárez
 
-Sitio de clases particulares con enfoque en captación y SEO. Incluye trece páginas: servicios AA/AI, modalidades, precios, perfil, contacto, recursos, orientación para la IA, comparación AA/AI y privacidad. Conserva simulador y calculadora orientativa.
+Sitio de clases particulares con enfoque en captación y SEO. Incluye catorce páginas: servicios AA/AI, modalidades, precios, perfil, contacto, recursos, herramientas interactivas, orientación para la IA, comparación AA/AI y privacidad. Conserva simulador y calculadora orientativa.
 
 ## Desarrollo
 
@@ -46,3 +46,5 @@ CLOUDFLARE_ACCOUNT_ID=52791b99896aec1ee03f60bcb24a332d npx wrangler@4.158.0 page
 El token debe estar configurado de forma segura como `CLOUDFLARE_API_TOKEN`; nunca guardarlo en el repositorio. `dist-cloudflare/` incluye una Pages Function mínima (`cloudflare/worker.js`) que redirige `www` y el subdominio estable de Pages a `https://matematicasib.com`, conservando la ruta y parámetros. El dominio principal sigue sirviendo los archivos mediante ASSETS. Estas redirecciones requieren Pages Functions y están sujetas a sus límites; `_redirects` de Pages no admite reglas por hostname. Cloudflare Pages resuelve las URLs HTML sin extensión automáticamente.
 
 La publicación en Pages es manual; subir commits a GitHub no despliega por sí solo este proyecto de Direct Upload. Para cambios futuros, compilar y desplegar otra vez. Se conservan las alternativas de Netlify y GitHub del repositorio.
+
+La portada resume servicios, modalidades y contacto; el simulador y la calculadora de notas se mantienen en `/herramientas-matematicas-ib`. Los antiguos fragmentos de la portada conservan accesos a las herramientas.

@@ -423,7 +423,7 @@ function initIBMathSimulator() {
 // =========================================================================
 function initIBGradeCalculator() {
   const calcContainer = document.getElementById("calculadora-notas-ib");
-  if (!calcContainer) return;
+  if (!calcContainer || !document.getElementById("input-p1")) return;
 
   const subjectBtns = document.querySelectorAll(".subject-btn");
   const p1Title = document.getElementById("p1-title");

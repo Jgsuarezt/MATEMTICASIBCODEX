@@ -6,7 +6,7 @@ test('El sitio sirve las páginas, los recursos SEO y rechaza rutas desconocidas
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const base = `http://127.0.0.1:${server.address().port}`;
   try {
-    for (const route of ['/', '/matematicas-aa', '/matematicas-ai', '/clases-presenciales-quito', '/precios', '/sobre-mi', '/recursos', '/preguntas-frecuentes', '/contacto', '/clases-matematicas-ib-online', '/asesoria-exploracion-matematica-ia', '/aa-o-ai-matematicas-ib', '/privacidad']) {
+    for (const route of ['/', '/matematicas-aa', '/matematicas-ai', '/clases-presenciales-quito', '/precios', '/sobre-mi', '/recursos', '/preguntas-frecuentes', '/contacto', '/clases-matematicas-ib-online', '/asesoria-exploracion-matematica-ia', '/aa-o-ai-matematicas-ib', '/privacidad', '/herramientas-matematicas-ib']) {
       const response = await fetch(base + route);
       assert.equal(response.status, 200, route);
       const html = await response.text();
