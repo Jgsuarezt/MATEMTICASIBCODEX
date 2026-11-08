@@ -1,0 +1,6 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "matematicasib",
+  "account_id": "52791b99896aec1ee03f60bcb24a332d",
+  "pages_build_output_dir": "dist-cloudflare"
+}

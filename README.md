@@ -33,3 +33,16 @@ Los canonical y sitemap señalan al dominio existente **https://matematicasib.co
 El formulario prepara mensajes para WhatsApp. No cobra, reserva ni envía mensajes automáticamente. No hay una base de datos de contactos ni una herramienta de analítica externa instalada. `js/growth.js` emite eventos locales sin nombres ni mensajes de alumnos y conserva UTM válidos durante la sesión. Consultar [el plan de captación](notes/PLAN-DE-CAPTACION.md) para conectar medición, verificar Search Console, trabajar el perfil local y distinguir clics de clientes.
 
 Los testimonios del sitio anterior se archivaron fuera del paquete de publicación hasta verificar fuente y permiso. No se publican puntuaciones agregadas sin evidencia ni se garantizan notas o posicionamiento. La información de formación, experiencia y tarifas proviene del sitio original.
+
+## Cloudflare Pages
+
+Proyecto `matematicasib`, cuenta de Cloudflare indicada en `wrangler.jsonc`. El contenido se puede actualizar mediante Direct Upload:
+
+```sh
+npm run build:cloudflare
+npx wrangler@4.158.0 pages deploy dist-cloudflare --project-name matematicasib --branch main
+```
+
+El token debe estar configurado de forma segura como `CLOUDFLARE_API_TOKEN`; nunca guardarlo en el repositorio. `dist-cloudflare/` incluye reglas de redirección compatibles con Pages: `www` y el subdominio estable de Pages apuntan al dominio principal `https://matematicasib.com`, conservando la ruta. Cloudflare Pages resuelve las URLs HTML sin extensión automáticamente.
+
+La publicación en Pages es manual; subir commits a GitHub no despliega por sí solo este proyecto de Direct Upload. Para cambios futuros, compilar y desplegar otra vez. Se conservan las alternativas de Netlify y GitHub del repositorio.
