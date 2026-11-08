@@ -1,0 +1,16 @@
+{
+  "name": "matematicas-ib",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Rediseño de Matemáticas IB de Gabriel Suárez, con contenido y herramientas del sitio original.",
+  "scripts": {
+    "dev": "node server.js",
+    "start": "node server.js",
+    "test": "node --test tests/server.test.js",
+    "build": "node scripts/build-pages.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "type": "module"
+}
