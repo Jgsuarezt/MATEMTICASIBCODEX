@@ -64,8 +64,13 @@ document.addEventListener("DOMContentLoaded", () => {
         textoWhatsApp += ` Mensaje: ${mensaje}`;
       }
 
+      if (typeof window.mathibAttribution === "function") textoWhatsApp += window.mathibAttribution();
       const encodedUrl = `https://wa.me/593998252624?text=${encodeURIComponent(textoWhatsApp)}`;
-      window.open(encodedUrl, "_blank");
+      const fallback = document.getElementById("booking-fallback");
+      if (fallback) { fallback.href = encodedUrl; fallback.hidden = false; }
+      const status = document.getElementById("booking-status");
+      if (status) status.textContent = "Mensaje preparado. Revisa y envía tu consulta en WhatsApp. Si no se abre, utiliza el enlace de abajo.";
+      window.open(encodedUrl, "_blank", "noopener,noreferrer");
     });
   }
 
@@ -466,7 +471,7 @@ function initIBGradeCalculator() {
         { grade: 7, min: 70, label: "Nivel Sobresaliente", color: "#4ade80" },
         { grade: 6, min: 58, label: "Muy Buen Nivel", color: "#22c55e" },
         { grade: 5, min: 46, label: "Buen Nivel", color: "#38bdf8" },
-        { grade: 4, min: 34, label: "Aprobado IB", color: "#facc15" },
+        { grade: 4, min: 34, label: "Nivel 4 orientativo", color: "#facc15" },
         { grade: 3, min: 23, label: "En Riesgo", color: "#fb923c" },
         { grade: 2, min: 12, label: "Insuficiente", color: "#f87171" },
         { grade: 1, min: 0, label: "Crítico", color: "#ef4444" }
@@ -483,7 +488,7 @@ function initIBGradeCalculator() {
         { grade: 7, min: 68, label: "Nivel Sobresaliente", color: "#4ade80" },
         { grade: 6, min: 56, label: "Muy Buen Nivel", color: "#22c55e" },
         { grade: 5, min: 44, label: "Buen Nivel", color: "#38bdf8" },
-        { grade: 4, min: 32, label: "Aprobado IB", color: "#facc15" },
+        { grade: 4, min: 32, label: "Nivel 4 orientativo", color: "#facc15" },
         { grade: 3, min: 21, label: "En Riesgo", color: "#fb923c" },
         { grade: 2, min: 11, label: "Insuficiente", color: "#f87171" },
         { grade: 1, min: 0, label: "Crítico", color: "#ef4444" }
@@ -499,7 +504,7 @@ function initIBGradeCalculator() {
         { grade: 7, min: 72, label: "Nivel Sobresaliente", color: "#4ade80" },
         { grade: 6, min: 60, label: "Muy Buen Nivel", color: "#22c55e" },
         { grade: 5, min: 48, label: "Buen Nivel", color: "#38bdf8" },
-        { grade: 4, min: 36, label: "Aprobado IB", color: "#facc15" },
+        { grade: 4, min: 36, label: "Nivel 4 orientativo", color: "#facc15" },
         { grade: 3, min: 25, label: "En Riesgo", color: "#fb923c" },
         { grade: 2, min: 13, label: "Insuficiente", color: "#f87171" },
         { grade: 1, min: 0, label: "Crítico", color: "#ef4444" }
@@ -516,7 +521,7 @@ function initIBGradeCalculator() {
         { grade: 7, min: 70, label: "Nivel Sobresaliente", color: "#4ade80" },
         { grade: 6, min: 58, label: "Muy Buen Nivel", color: "#22c55e" },
         { grade: 5, min: 46, label: "Buen Nivel", color: "#38bdf8" },
-        { grade: 4, min: 34, label: "Aprobado IB", color: "#facc15" },
+        { grade: 4, min: 34, label: "Nivel 4 orientativo", color: "#facc15" },
         { grade: 3, min: 23, label: "En Riesgo", color: "#fb923c" },
         { grade: 2, min: 12, label: "Insuficiente", color: "#f87171" },
         { grade: 1, min: 0, label: "Crítico", color: "#ef4444" }
@@ -639,7 +644,7 @@ function initIBGradeCalculator() {
     const cut4 = cfg.cutoffs[3].min;
 
     if (matched.grade === 7) {
-      feedback = `<strong>¡Excelente! Te encuentras en rango de 7 (Sobresaliente).</strong> Tu promedio ponderado de ${total.toFixed(1)}% supera el límite histórico oficial (${cut7}%). Asegúrate de mantener la precisión en la Exploración Matemática (IA) para asegurar este puntaje.`;
+      feedback = `<strong>¡Excelente! Te encuentras en rango de 7 (Sobresaliente).</strong> Tu promedio ponderado de ${total.toFixed(1)}% supera el umbral orientativo de esta herramienta (${cut7}%). Asegúrate de mantener la precisión en la Exploración Matemática (IA) para seguir trabajando hacia tu meta.`;
     } else if (matched.grade === 6) {
       const diff = (cut7 - total).toFixed(1);
       feedback = `<strong>Estás en Nivel 6, a solo ${diff}% de alcanzar el 7.</strong> Con clases de refuerzo enfocadas en velocidad de calculadora Casio para Paper 2 y optimizando los Criterios C y E de tu IA, este margen es totalmente alcanzable.`;
@@ -648,14 +653,14 @@ function initIBGradeCalculator() {
       feedback = `<strong>Nivel 5 sólido, a ${diff}% del Nivel 6.</strong> Tu mayor margen de ganancia está en resolver preguntas tipo Paper 2 y Paper 3 bajo tiempo cronometrado y evitar errores de notación según los Mark Schemes.`;
     } else if (matched.grade === 4) {
       const diff = (cut5 - total).toFixed(1);
-      feedback = `<strong>Aprobado oficial (Nivel 4), a ${diff}% de subir a Nivel 5.</strong> Requiere consolidar los temas base (álgebra y funciones) y apoyarte fuertemente en los menús de tu calculadora Casio para asegurar puntos garantizados.`;
+      feedback = `<strong>Estimación orientativa de Nivel 4, a ${diff}% de subir a Nivel 5.</strong> Requiere consolidar los temas base (álgebra y funciones) y apoyarte fuertemente en los menús de tu calculadora Casio para asegurar puntos en ejercicios básicos.`;
     } else {
       feedback = `<strong>Calificación proyectada en riesgo (${matched.grade}/7).</strong> Es urgente una nivelación conceptual y práctica guiada con past papers para subir al umbral de aprobación (${cut4}%).`;
     }
 
     feedbackBox.innerHTML = feedback;
 
-    const waMsg = `Hola Gabriel, calculé mis notas en matematicasib.com: mi estimación actual es de ${matched.grade}/7 (${total.toFixed(1)}%) en ${cfg.name}. Deseo coordinar clases para asegurar mi meta de puntaje.`;
+    const waMsg = `Hola Gabriel, calculé mis notas en matematicasib.com: mi estimación actual es de ${matched.grade}/7 (${total.toFixed(1)}%) en ${cfg.name}. Deseo coordinar clases para trabajar hacia mi meta de puntaje.`;
     whatsappCta.href = `https://wa.me/593998252624?text=${encodeURIComponent(waMsg)}`;
   }
 

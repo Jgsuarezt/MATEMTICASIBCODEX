@@ -4,7 +4,7 @@ import { resolve, extname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const root = fileURLToPath(new URL('.', import.meta.url));
-const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml' };
+const mime = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.png': 'image/png', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.xml': 'application/xml; charset=utf-8', '.txt': 'text/plain; charset=utf-8' };
 export const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, 'http://localhost');
@@ -15,7 +15,7 @@ export const server = http.createServer(async (req, res) => {
     if (!file.startsWith(root.endsWith(sep) ? root : root + sep)) {
       res.writeHead(403); res.end('Acceso no permitido'); return;
     }
-    const allowed = /\.(html|css|js|png|svg|ico|webp|jpg|jpeg)$/i.test(file) && !path.split('/').some(p => p.startsWith('.'));
+    const allowed = (/^\/[a-z0-9-]+\.html$/i.test(path) || /^\/(css|js|img)\/[a-z0-9/_-]+\.(css|js|png|svg|ico|webp|jpg|jpeg)$/i.test(path) || ['/robots.txt', '/sitemap.xml', '/llms.txt'].includes(path)) && !path.split('/').some(p => p.startsWith('.'));
     if (!allowed) { res.writeHead(404); res.end('Página no encontrada'); return; }
     const data = await readFile(file);
     res.writeHead(200, { 'Content-Type': mime[extname(file)] || 'application/octet-stream', 'X-Content-Type-Options': 'nosniff' });

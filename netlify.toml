@@ -1,0 +1,12 @@
+[build]
+  command = "npm run build:netlify"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[context.deploy-preview]
+  command = "npm run build:netlify && node scripts/noindex-preview.js"
+
+[context.branch-deploy]
+  command = "npm run build:netlify && node scripts/noindex-preview.js"
