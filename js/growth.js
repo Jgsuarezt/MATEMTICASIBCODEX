@@ -40,6 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   const form = document.getElementById('quick-enquiry');
+  for (const name of ['course', 'goal']) {
+    const select = document.getElementById(`quick-${name}`);
+    const description = document.getElementById(`quick-${name}-description`);
+    const sync = () => { if (select && description) description.textContent = select.selectedOptions[0].textContent.trim(); };
+    select?.addEventListener('change', sync);
+    if (select?.selectedIndex > 0 || name === 'goal') sync();
+  }
   const mode = document.getElementById('quick-mode');
   const coverage = document.getElementById('quick-coverage');
   mode?.addEventListener('change', () => { if (coverage) coverage.hidden = mode.value !== 'presencial'; });
@@ -48,7 +55,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const course = document.getElementById('quick-course').value;
     const goal = document.getElementById('quick-goal').value;
     const chosenMode = mode.value === 'presencial' ? 'presencial a domicilio en Quito' : 'virtual';
-    const text = `Hola Gabriel, quiero consultar disponibilidad para una clase de Matemáticas IB. Curso: ${course}. Modalidad: ${chosenMode}. Objetivo: ${goal}. He visto la tarifa de $20 USD por 60 minutos. ¿Qué horarios tienes disponibles?` + suffix();
+    const courseLabel = document.getElementById('quick-course').selectedOptions[0].textContent.trim();
+    const goalLabel = document.getElementById('quick-goal').selectedOptions[0].textContent.trim();
+    const text = `Hola Gabriel, quiero consultar disponibilidad para una clase de Matemáticas IB. Curso: ${courseLabel}. Modalidad: ${chosenMode}. Objetivo: ${goalLabel}. He visto la tarifa de $20 USD por 60 minutos. ¿Qué horarios tienes disponibles?` + suffix();
     const url = 'https://wa.me/593998252624?text=' + encodeURIComponent(text);
     const fallback = document.getElementById('quick-fallback');
     fallback.href = url; fallback.hidden = false;
