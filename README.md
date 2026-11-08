@@ -36,11 +36,11 @@ Los testimonios del sitio anterior se archivaron fuera del paquete de publicaci�
 
 ## Cloudflare Pages
 
-Proyecto `matematicasib`, cuenta de Cloudflare indicada en `wrangler.jsonc`. El contenido se puede actualizar mediante Direct Upload:
+Proyecto `matematicasib`, configurado en `wrangler.jsonc`. La cuenta se selecciona mediante `CLOUDFLARE_ACCOUNT_ID`. El contenido se puede actualizar mediante Direct Upload:
 
 ```sh
 npm run build:cloudflare
-npx wrangler@4.158.0 pages deploy dist-cloudflare --project-name matematicasib --branch main
+CLOUDFLARE_ACCOUNT_ID=52791b99896aec1ee03f60bcb24a332d npx wrangler@4.158.0 pages deploy dist-cloudflare --project-name matematicasib --branch main
 ```
 
 El token debe estar configurado de forma segura como `CLOUDFLARE_API_TOKEN`; nunca guardarlo en el repositorio. `dist-cloudflare/` incluye reglas de redirección compatibles con Pages: `www` y el subdominio estable de Pages apuntan al dominio principal `https://matematicasib.com`, conservando la ruta. Cloudflare Pages resuelve las URLs HTML sin extensión automáticamente.
