@@ -11,7 +11,8 @@ test('Los enlaces de contacto usan el teléfono correcto y funcionan sin ventana
       const href = tag.match(/\bhref=(["'])(.*?)\1/)?.[2]?.replaceAll('&amp;', '&');
       const dynamic = /\bid="(?:quick-fallback|booking-fallback|calc-whatsapp-cta)"/.test(tag);
       if (!href?.startsWith('https://api.whatsapp.com/') && !dynamic) continue;
-      assert.match(tag, /\btarget="_self"/, file + ': contacto sin popup');
+      const target = tag.match(/\btarget=(["'])(.*?)\1/)?.[2] || '_self';
+      assert.equal(target, '_self', file + ': contacto sin popup');
       if (href?.startsWith('https://api.whatsapp.com/')) {
         const url = new URL(href);
         assert.equal(url.pathname, '/send');
