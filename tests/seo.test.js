@@ -43,4 +43,5 @@ test('Paquete de producción rastreable y vista de GitHub sin indexar', async ()
   assert.match(await load('dist/index.html'), /content="index, follow/);
   assert.match(await load('docs/index.html'), /content="noindex, follow"/);
   assert.match(await load('docs/matematicas-aa.html'), /\/MATEMTICASIBCODEX\/herramientas-matematicas-ib.html/);
+  assert.match(await load('docs/matematicas-aa.html'), /srcset="\/MATEMTICASIBCODEX\/img\/analisis-enfoques-ib-640\.webp 640w/);
 });

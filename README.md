@@ -48,3 +48,7 @@ El token debe estar configurado de forma segura como `CLOUDFLARE_API_TOKEN`; nun
 La publicación en Pages es manual; subir commits a GitHub no despliega por sí solo este proyecto de Direct Upload. Para cambios futuros, compilar y desplegar otra vez. Se conservan las alternativas de Netlify y GitHub del repositorio.
 
 La portada resume servicios, modalidades y contacto; el simulador y la calculadora de notas se mantienen en `/herramientas-matematicas-ib`. Los antiguos fragmentos de la portada conservan accesos a las herramientas.
+
+## Ilustraciones por tema
+
+Ocho ilustraciones generadas con IA se integran según el tema de las páginas. Los PNG originales se conservan fuera del checkout, en `/workspace/generated_images`. El repositorio contiene variantes WebP de 640 y 1280 píxeles; cada navegador descarga la que corresponde mediante `srcset`. Las cabeceras reservan el espacio con dimensiones explícitas y se mantienen los textos como HTML accesible. `img/illustrations.json` describe la colección. La fotografía real de Gabriel Suárez no se sustituyó ni se generaron fotografías de supuestas clases o estudiantes.

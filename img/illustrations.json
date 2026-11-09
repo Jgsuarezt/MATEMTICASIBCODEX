@@ -1,0 +1,70 @@
+{
+  "generator": "image_gen",
+  "note": "Ilustraciones generadas con IA; no representan aulas, domicilios o clases reales. La fotografía original de Gabriel Suárez se conserva.",
+  "assets": [
+    {
+      "name": "analisis-enfoques-ib",
+      "description": "Ilustración de un cuaderno de cálculo, una curva y un compás para Análisis y Enfoques",
+      "variants": [
+        "analisis-enfoques-ib-640.webp",
+        "analisis-enfoques-ib-1280.webp"
+      ]
+    },
+    {
+      "name": "aplicaciones-interpretacion-ib",
+      "description": "Ilustración de una distribución normal, datos y modelos estadísticos para Aplicaciones e Interpretación",
+      "variants": [
+        "aplicaciones-interpretacion-ib-640.webp",
+        "aplicaciones-interpretacion-ib-1280.webp"
+      ]
+    },
+    {
+      "name": "clases-matematicas-online",
+      "description": "Ilustración de una clase de matemáticas online con portátil, tableta y cuaderno",
+      "variants": [
+        "clases-matematicas-online-640.webp",
+        "clases-matematicas-online-1280.webp"
+      ]
+    },
+    {
+      "name": "clases-matematicas-quito",
+      "description": "Ilustración de un escritorio de estudio con una vista inspirada en Quito y los Andes",
+      "variants": [
+        "clases-matematicas-quito-640.webp",
+        "clases-matematicas-quito-1280.webp"
+      ]
+    },
+    {
+      "name": "exploracion-matematica-ib",
+      "description": "Ilustración de una investigación matemática con cuaderno, datos y una lupa",
+      "variants": [
+        "exploracion-matematica-ib-640.webp",
+        "exploracion-matematica-ib-1280.webp"
+      ]
+    },
+    {
+      "name": "recursos-estudio-matematicas",
+      "description": "Ilustración de libros, fichas y modelos geométricos para estudiar matemáticas",
+      "variants": [
+        "recursos-estudio-matematicas-640.webp",
+        "recursos-estudio-matematicas-1280.webp"
+      ]
+    },
+    {
+      "name": "planificacion-clases-matematicas",
+      "description": "Ilustración de un calendario de estudio, reloj y símbolos de conversación para coordinar una clase",
+      "variants": [
+        "planificacion-clases-matematicas-640.webp",
+        "planificacion-clases-matematicas-1280.webp"
+      ]
+    },
+    {
+      "name": "privacidad-comunicacion",
+      "description": "Ilustración de un cuaderno cerrado, un sobre y un candado para representar privacidad",
+      "variants": [
+        "privacidad-comunicacion-640.webp",
+        "privacidad-comunicacion-1280.webp"
+      ]
+    }
+  ]
+}

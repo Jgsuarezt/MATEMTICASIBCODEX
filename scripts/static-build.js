@@ -15,6 +15,13 @@ export async function buildStatic({ outDir, basePath = '', preview = false }) {
       else if (!path.extname(destination)) destination = destination.replace(/\/$/, '') + '.html';
       return `${attr}=${quote}${basePath}${destination}${url.search}${url.hash}${quote}`;
     });
+    if (basePath) html = html.replace(/\bsrcset=(["'])(.*?)\1/g, (_, quote, sources) => {
+      const rewritten = sources.split(',').map(source => {
+        const [url, ...descriptor] = source.trim().split(/\s+/);
+        return [url.startsWith('/') && !url.startsWith('//') ? basePath + url : url, ...descriptor].join(' ');
+      }).join(', ');
+      return `srcset=${quote}${rewritten}${quote}`;
+    });
     if (preview) html = html.replace('content="index, follow, max-image-preview:large"', 'content="noindex, follow"');
     await writeFile(path.join(output, name), html);
   }
