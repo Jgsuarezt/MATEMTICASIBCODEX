@@ -41,6 +41,8 @@ test('Paquete de producción rastreable y vista de GitHub sin indexar', async ()
   assert.match(robots, /Sitemap: https:\/\/matematicasib.com\/sitemap.xml/);
   assert.ok((await load('dist/_redirects')).includes('/matematicas-aa.html /matematicas-aa 301!'));
   assert.match(await load('dist/index.html'), /content="index, follow/);
+  assert.match(await load('dist/index.html'), /\/css\/redesign\.css\?v=[a-f0-9]{12}/);
+  assert.match(await load('docs/index.html'), /\/MATEMTICASIBCODEX\/js\/main\.js\?v=[a-f0-9]{12}/);
   assert.match(await load('docs/index.html'), /content="noindex, follow"/);
   assert.match(await load('docs/matematicas-aa.html'), /\/MATEMTICASIBCODEX\/herramientas-matematicas-ib.html/);
   assert.match(await load('docs/matematicas-aa.html'), /srcset="\/MATEMTICASIBCODEX\/img\/analisis-enfoques-ib-640\.webp 640w/);

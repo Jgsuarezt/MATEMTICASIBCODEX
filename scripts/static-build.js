@@ -1,13 +1,26 @@
 import { mkdir, readFile, writeFile, cp, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
+import { createHash } from 'node:crypto';
 const root = fileURLToPath(new URL('../', import.meta.url));
 export async function buildStatic({ outDir, basePath = '', preview = false }) {
   const output = path.join(root, outDir);
   await mkdir(output, { recursive: true });
+  const assetVersions = new Map();
+  for (const folder of ['css', 'js']) {
+    for (const file of await readdir(path.join(root, folder))) {
+      if (!/\.(css|js)$/.test(file)) continue;
+      const content = await readFile(path.join(root, folder, file));
+      assetVersions.set(`/${folder}/${file}`, createHash('sha256').update(content).digest('hex').slice(0, 12));
+    }
+  }
   for (const name of await readdir(root)) {
     if (!name.endsWith('.html')) continue;
     let html = await readFile(path.join(root, name), 'utf8');
+    html = html.replace(/\b(href|src)=(["'])(\/(?:css|js)\/[^"'?\s]+)(?:\?[^"']*)?\2/g, (match, attr, quote, url) => {
+      const version = assetVersions.get(url);
+      return version ? `${attr}=${quote}${url}?v=${version}${quote}` : match;
+    });
     if (basePath) html = html.replace(/\b(href|src)=(['"])\/(?!\/)([^'"\s]*)\2/g, (_, attr, quote, target) => {
       const url = new URL('/' + target, 'https://build.invalid');
       let destination = url.pathname;
