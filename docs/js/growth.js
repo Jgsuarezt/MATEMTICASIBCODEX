@@ -14,9 +14,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const record = (placement, details = {}) => {
     const event = { event: 'contact_intent', placement, page_path: location.pathname, ...campaign, ...details };
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(event);
-    window.dispatchEvent(new CustomEvent('matematicasib:contact', { detail: event }));
+    // Optional measurement must never prevent a visitor from contacting the tutor.
+    try {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push(event);
+      window.dispatchEvent(new CustomEvent('matematicasib:contact', { detail: event }));
+    } catch { /* Continue to WhatsApp even if an external tracker fails. */ }
   };
   const suffix = () => Object.keys(campaign).length
     ? ` Referencia de campaña: ${Object.entries(campaign).map(([key, value]) => `${key}=${value}`).join(', ')}.` : '';
@@ -28,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!anchor) return;
     let url;
     try { url = new URL(anchor.href); } catch { return; }
-    if (url.hostname !== 'wa.me') return;
+    if (!['wa.me', 'api.whatsapp.com'].includes(url.hostname)) return;
     if (anchor.id !== 'quick-fallback') {
       const text = url.searchParams.get('text');
       if (text && suffix() && !text.includes('Referencia de campaña:')) {
@@ -58,12 +61,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const courseLabel = document.getElementById('quick-course').selectedOptions[0].textContent.trim();
     const goalLabel = document.getElementById('quick-goal').selectedOptions[0].textContent.trim();
     const text = `Hola Gabriel, quiero consultar disponibilidad para una clase de Matemáticas IB. Curso: ${courseLabel}. Modalidad: ${chosenMode}. Objetivo: ${goalLabel}. He visto la tarifa de $20 USD por 60 minutos. ¿Qué horarios tienes disponibles?` + suffix();
-    const url = 'https://wa.me/593998252624?text=' + encodeURIComponent(text);
+    const url = 'https://api.whatsapp.com/send?phone=593998252624&text=' + encodeURIComponent(text);
     const fallback = document.getElementById('quick-fallback');
     fallback.href = url; fallback.hidden = false;
     document.getElementById('quick-status').textContent = 'Mensaje preparado. Si no se abre WhatsApp, utiliza el enlace de abajo. Revisa y envía el mensaje allí para consultar disponibilidad.';
     record('quick_enquiry', { course, modality: mode.value, goal });
-    window.open(url, '_blank', 'noopener,noreferrer');
+    window.location.assign(url);
   });
 
   const booking = document.getElementById('booking-form');

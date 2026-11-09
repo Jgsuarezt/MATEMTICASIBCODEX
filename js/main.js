@@ -65,12 +65,12 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       if (typeof window.mathibAttribution === "function") textoWhatsApp += window.mathibAttribution();
-      const encodedUrl = `https://wa.me/593998252624?text=${encodeURIComponent(textoWhatsApp)}`;
+      const encodedUrl = `https://api.whatsapp.com/send?phone=593998252624&text=${encodeURIComponent(textoWhatsApp)}`;
       const fallback = document.getElementById("booking-fallback");
       if (fallback) { fallback.href = encodedUrl; fallback.hidden = false; }
       const status = document.getElementById("booking-status");
       if (status) status.textContent = "Mensaje preparado. Revisa y envía tu consulta en WhatsApp. Si no se abre, utiliza el enlace de abajo.";
-      window.open(encodedUrl, "_blank", "noopener,noreferrer");
+      window.location.assign(encodedUrl);
     });
   }
 
@@ -661,7 +661,7 @@ function initIBGradeCalculator() {
     feedbackBox.innerHTML = feedback;
 
     const waMsg = `Hola Gabriel, calculé mis notas en matematicasib.com: mi estimación actual es de ${matched.grade}/7 (${total.toFixed(1)}%) en ${cfg.name}. Deseo coordinar clases para trabajar hacia mi meta de puntaje.`;
-    whatsappCta.href = `https://wa.me/593998252624?text=${encodeURIComponent(waMsg)}`;
+    whatsappCta.href = `https://api.whatsapp.com/send?phone=593998252624&text=${encodeURIComponent(waMsg)}`;
   }
 
   setupSubject("aa-sl");
