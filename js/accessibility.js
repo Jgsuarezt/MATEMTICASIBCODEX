@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const menu = document.querySelector('.nav-menu');
   const toggle = document.querySelector('.menu-toggle');
   menu?.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    if (new URL(a.href, location.href).origin !== location.origin) return;
     menu.classList.remove('active'); toggle?.setAttribute('aria-expanded', 'false'); if (toggle) toggle.textContent = '☰';
   }));
   document.addEventListener('keydown', event => { if (event.key === 'Escape' && menu?.classList.contains('active')) { menu.classList.remove('active'); toggle?.setAttribute('aria-expanded','false'); if(toggle) { toggle.textContent='☰'; toggle.focus(); } } });

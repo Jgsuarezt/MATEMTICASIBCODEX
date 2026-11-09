@@ -32,13 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let url;
     try { url = new URL(anchor.href); } catch { return; }
     if (!['wa.me', 'api.whatsapp.com'].includes(url.hostname)) return;
-    if (anchor.id !== 'quick-fallback') {
-      const text = url.searchParams.get('text');
-      if (text && suffix() && !text.includes('Referencia de campaña:')) {
-        url.searchParams.set('text', text + suffix());
-        anchor.href = url.toString();
-      }
-    }
+    if (['quick-whatsapp-link', 'booking-whatsapp-link'].includes(anchor.id)) return;
     record(anchor.closest('header') ? 'navigation' : anchor.closest('footer') ? 'footer' : anchor.classList.contains('floating-whatsapp') ? 'floating' : anchor.id === 'calc-whatsapp-cta' ? 'grade_calculator' : 'content_link');
   });
 
@@ -53,21 +47,28 @@ document.addEventListener('DOMContentLoaded', () => {
   const mode = document.getElementById('quick-mode');
   const coverage = document.getElementById('quick-coverage');
   mode?.addEventListener('change', () => { if (coverage) coverage.hidden = mode.value !== 'presencial'; });
-  form?.addEventListener('submit', event => {
-    event.preventDefault();
-    const course = document.getElementById('quick-course').value;
-    const goal = document.getElementById('quick-goal').value;
-    const chosenMode = mode.value === 'presencial' ? 'presencial a domicilio en Quito' : 'virtual';
-    const courseLabel = document.getElementById('quick-course').selectedOptions[0].textContent.trim();
-    const goalLabel = document.getElementById('quick-goal').selectedOptions[0].textContent.trim();
-    const text = `Hola Gabriel, quiero consultar disponibilidad para una clase de Matemáticas IB. Curso: ${courseLabel}. Modalidad: ${chosenMode}. Objetivo: ${goalLabel}. He visto la tarifa de $20 USD por 60 minutos. ¿Qué horarios tienes disponibles?` + suffix();
-    const url = 'https://api.whatsapp.com/send?phone=593998252624&text=' + encodeURIComponent(text);
-    const fallback = document.getElementById('quick-fallback');
-    fallback.href = url; fallback.hidden = false;
-    document.getElementById('quick-status').textContent = 'Mensaje preparado. Si no se abre WhatsApp, utiliza el enlace de abajo. Revisa y envía el mensaje allí para consultar disponibilidad.';
-    record('quick_enquiry', { course, modality: mode.value, goal });
-    window.location.assign(url);
-  });
+  if (form) {
+    const nativeLink = document.getElementById('quick-whatsapp-link');
+    const prepareQuick = () => {
+      const selected = id => document.getElementById(id).selectedOptions[0].textContent.trim();
+      const text = `Hola Gabriel, quiero consultar disponibilidad para una clase de Matemáticas IB. Curso: ${selected('quick-course')}. Modalidad: ${mode.value === 'presencial' ? 'presencial a domicilio en Quito' : 'virtual'}. Objetivo: ${selected('quick-goal')}. He visto la tarifa de $20 USD por 60 minutos. ¿Qué horarios tienes disponibles?` + suffix();
+      const url = 'https://wa.me/593998252624?text=' + encodeURIComponent(text);
+      if (nativeLink) nativeLink.href = url;
+      const fallback = document.getElementById('quick-fallback');
+      if (fallback) fallback.href = url;
+      return url;
+    };
+    const recordQuick = () => record('quick_enquiry', { course: document.getElementById('quick-course').value, modality: mode.value, goal: document.getElementById('quick-goal').value });
+    form.addEventListener('input', prepareQuick);
+    form.addEventListener('change', prepareQuick);
+    nativeLink?.addEventListener('click', recordQuick);
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      recordQuick();
+      window.location.assign(prepareQuick());
+    });
+    prepareQuick();
+  }
 
   const booking = document.getElementById('booking-form');
   if (booking) {
@@ -80,6 +81,9 @@ document.addEventListener('DOMContentLoaded', () => {
       modality.value = requestedModality;
       modality.dispatchEvent(new Event('change'));
     }
-    booking.addEventListener('submit', () => record('booking_form', { course: course.value, modality: modality.value }));
+    const recordBooking = () => record('booking_form', { course: course.value, modality: modality.value });
+    booking.addEventListener('submit', recordBooking);
+    document.getElementById('booking-whatsapp-link')?.addEventListener('click', recordBooking);
+    booking.dispatchEvent(new Event('change'));
   }
 });

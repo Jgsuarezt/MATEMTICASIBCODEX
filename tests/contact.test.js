@@ -10,13 +10,13 @@ test('Los enlaces de contacto usan el teléfono correcto y funcionan sin ventana
     for (const [tag] of html.matchAll(/<a\b[^>]*>/g)) {
       const href = tag.match(/\bhref=(["'])(.*?)\1/)?.[2]?.replaceAll('&amp;', '&');
       const dynamic = /\bid="(?:quick-fallback|booking-fallback|calc-whatsapp-cta)"/.test(tag);
-      if (!href?.startsWith('https://api.whatsapp.com/') && !dynamic) continue;
+      if (!href?.startsWith('https://wa.me/') && !dynamic) continue;
       const target = tag.match(/\btarget=(["'])(.*?)\1/)?.[2] || '_self';
       assert.equal(target, '_self', file + ': contacto sin popup');
-      if (href?.startsWith('https://api.whatsapp.com/')) {
+      if (href?.startsWith('https://wa.me/')) {
         const url = new URL(href);
-        assert.equal(url.pathname, '/send');
-        assert.equal(url.searchParams.get('phone'), '593998252624', file + ': teléfono');
+        assert.equal(url.pathname, '/593998252624', file + ': teléfono');
+        assert.equal(url.search, '', file + ': enlace directo idéntico al comprobado por el propietario');
         assert.ok(!url.searchParams.has('amp;text'), file + ': parámetros HTML');
       }
       checked++;

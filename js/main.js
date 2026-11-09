@@ -47,31 +47,34 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (contactForm) {
-    contactForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const nombre = document.getElementById("form-nombre") ? document.getElementById("form-nombre").value : "";
-      const modalidad = document.getElementById("form-modalidad") ? document.getElementById("form-modalidad").value : "virtual";
-      const curso = document.getElementById("form-curso") ? document.getElementById("form-curso").value : "AA HL/SL";
-      const calculadora = document.getElementById("form-calculadora") ? document.getElementById("form-calculadora").value : "Casio";
-      const mensaje = document.getElementById("form-mensaje") ? document.getElementById("form-mensaje").value : "";
-
-      let textoWhatsApp = `Hola Gabriel, mi nombre es ${nombre}. Me interesa agendar clases de Matemáticas IB (${curso}) en modalidad ${modalidad.toUpperCase()}. Calculadora: ${calculadora}.`;
-      if (modalidad === "presencial") {
-        textoWhatsApp += " (Quito a domicilio).";
-      }
-      if (mensaje) {
-        textoWhatsApp += ` Mensaje: ${mensaje}`;
-      }
-
-      if (typeof window.mathibAttribution === "function") textoWhatsApp += window.mathibAttribution();
-      const encodedUrl = `https://api.whatsapp.com/send?phone=593998252624&text=${encodeURIComponent(textoWhatsApp)}`;
+    const contactLink = document.getElementById("booking-whatsapp-link");
+    const prepareContact = () => {
+      const value = id => document.getElementById(id)?.value.trim() || "";
+      const nombre = value("form-nombre");
+      const modalidad = value("form-modalidad") || "virtual";
+      const curso = value("form-curso") || "Consulta General";
+      const calculadora = value("form-calculadora");
+      const mensaje = value("form-mensaje");
+      let text = nombre ? `Hola Gabriel, mi nombre es ${nombre}.` : "Hola Gabriel.";
+      text += ` Me interesa consultar clases de Matemáticas IB (${curso}) en modalidad ${modalidad.toUpperCase()}.`;
+      if (calculadora) text += ` Calculadora: ${calculadora}.`;
+      if (modalidad === "presencial") text += " A domicilio en Quito.";
+      if (mensaje) text += ` Mensaje: ${mensaje}`;
+      if (typeof window.mathibAttribution === "function") text += window.mathibAttribution();
+      const url = `https://wa.me/593998252624?text=${encodeURIComponent(text)}`;
+      if (contactLink) contactLink.href = url;
       const fallback = document.getElementById("booking-fallback");
-      if (fallback) { fallback.href = encodedUrl; fallback.hidden = false; }
-      const status = document.getElementById("booking-status");
-      if (status) status.textContent = "Mensaje preparado. Revisa y envía tu consulta en WhatsApp. Si no se abre, utiliza el enlace de abajo.";
-      window.location.assign(encodedUrl);
+      if (fallback) fallback.href = url;
+      return url;
+    };
+    // Prepare the href before a tap so mobile browsers handle it as a native link.
+    contactForm.addEventListener("input", prepareContact);
+    contactForm.addEventListener("change", prepareContact);
+    contactForm.addEventListener("submit", event => {
+      event.preventDefault();
+      window.location.assign(prepareContact());
     });
+    prepareContact();
   }
 
 
@@ -661,7 +664,7 @@ function initIBGradeCalculator() {
     feedbackBox.innerHTML = feedback;
 
     const waMsg = `Hola Gabriel, calculé mis notas en matematicasib.com: mi estimación actual es de ${matched.grade}/7 (${total.toFixed(1)}%) en ${cfg.name}. Deseo coordinar clases para trabajar hacia mi meta de puntaje.`;
-    whatsappCta.href = `https://api.whatsapp.com/send?phone=593998252624&text=${encodeURIComponent(waMsg)}`;
+    whatsappCta.href = `https://wa.me/593998252624?text=${encodeURIComponent(waMsg)}`;
   }
 
   setupSubject("aa-sl");
